@@ -5,8 +5,8 @@ public class FixedSlidingWindow {
 
         int start = 0; 
         int windowSize = 3;
-
         int windowSum = 0;
+        
         for(int end = 0; end < arr.length; end++) {
 
             windowSum += arr[end];
