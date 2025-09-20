@@ -1,7 +1,7 @@
 
 ### Adjacency Matrix
 
-```{java}
+```java
 
 import java.util.*;
 
@@ -42,7 +42,7 @@ public class GraphMatrix {
 
 ### Adjacency List
 
-```{java}
+```java
 import java.util.*;
 
 public class GraphList {
@@ -77,4 +77,77 @@ public class GraphList {
     }
 }
 
+```
+
+### BFS - Flood Fill
+
+```java
+
+class Cell {
+
+    int x, y;
+
+    Cell(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+}
+
+class Solution {
+
+    int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    boolean[][] visited;
+
+    public int maxAreaOfIsland(int[][] grid) {
+
+        int col = grid[0].length, row = grid.length;
+
+        visited = new boolean[row][col];
+
+        int maxArea = 0;
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++){
+                
+                if(grid[i][j] == 1) {
+                    maxArea = Math.max(maxArea, bfs(grid, i, j, row, col));
+                }
+            }
+        }
+
+        return maxArea;
+       
+    }
+
+    public int bfs(int[][] grid, int i, int j, int row, int col) {
+        
+        int area = 0;
+        Queue<Cell> q = new LinkedList();
+
+        q.add(new Cell(i, j));
+        visited[i][j] = true;
+        area++;
+
+        while(!q.isEmpty()) {
+
+            Cell cell = q.remove();
+
+            for(int[] dir : dirs) {
+                int x = cell.x + dir[0];
+                int y = cell.y + dir[1];
+
+                if(x >= 0 && x < row &&
+                   y >= 0 && y < col &&
+                   grid[x][y] == 1 && !visited[x][y]) {
+                    
+                    q.add(new Cell(x, y));
+                    visited[x][y] = true;
+                    area++;
+                }
+            }
+        }
+    
+        return area;
+    }
+}
 ```
