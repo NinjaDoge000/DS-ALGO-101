@@ -151,3 +151,56 @@ class Solution {
     }
 }
 ```
+
+### Topological sort
+
+```java
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        
+        List<List<Integer>> adjList = new ArrayList<>();
+
+
+        // init adjlist
+        for(int i = 0;  i < numCourses; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        // construct adjList and inDegree Array
+        int inDegree[] = new int[numCourses];
+        for(int[] courses : prerequisites) {
+            adjList.get(courses[1]).add(courses[0]);
+            inDegree[courses[0]]++;
+        }
+
+        // add inDependents in queue
+        int courseCompleted = 0;
+        Queue<Integer> q = new LinkedList<>();
+        for(int i = 0; i < numCourses; i++) {
+            if(inDegree[i] == 0) {
+                q.add(i);
+                courseCompleted++;
+            }
+        }
+
+        
+        while(!q.isEmpty()) {
+            int course = q.poll();
+
+            for (int dep : adjList.get(course)) {
+                inDegree[dep]--;
+                if(inDegree[dep] == 0) {
+                    q.add(dep);
+                    courseCompleted++;
+                }
+            }
+        }
+
+        return (courseCompleted == numCourses);
+
+
+    }
+}
+
+```
