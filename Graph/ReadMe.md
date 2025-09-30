@@ -204,3 +204,52 @@ class Solution {
 }
 
 ```
+
+### Prim algorithm
+
+```java
+
+class Solution {
+
+    public int dist(int[] a, int[] b) {
+        return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]);
+    }
+
+    public int minCostConnectPoints(int[][] points) {
+        
+
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> (a[1] - b[1]));
+
+
+        int pointsCovered = 0;
+        int n = points.length;
+        boolean vis[] = new boolean[n];
+        pq.add(new int[]{0, 0});
+
+        int mst = 0;
+
+        while(pointsCovered < n) {
+
+            int[] edge = pq.remove();
+
+
+            int node = edge[0];
+            int cost = edge[1];
+            if(vis[node]) continue;
+            
+            vis[node] = true;
+            mst += cost;
+            pointsCovered++;
+
+            for(int i = 0; i < n; i++) {
+                if(vis[i]) continue;
+                pq.add(new int[]{i, dist(points[node], points[i])}); 
+            }
+
+        }
+
+        return mst;
+    }
+}
+
+```
